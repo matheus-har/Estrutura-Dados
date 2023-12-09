@@ -1,0 +1,135 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int resp;
+
+void buscaSequencial() {
+  int tamanho, cont = 0, busca, auxiliar = 0, i;
+  int *vetor;
+
+  do
+  {
+    printf("\nINFORME A QUANTIDADE POSICOES DO VETOR\n");
+    scanf("%d", &tamanho);
+
+  if (tamanho > 0)
+    cont++;
+
+  }while(cont != 1);
+
+  vetor = (int *)malloc(tamanho * sizeof(int));
+
+  for (i = 0; i < tamanho; i++) {
+    printf("INFORME O %d VALOR\n", i + 1);
+    scanf("%d", &vetor[i]);
+  }
+
+  printf("INFORME O NUMERO QUE DESEJA ACHAR\n");
+  scanf("%d", &busca);
+
+  for (i = 0; i < tamanho; i++) {
+    if (vetor[i] == busca) {
+      auxiliar++;
+      cont = i;
+    }
+  }
+  if (auxiliar == 1)
+    printf("VALOR ENCONTRADO!!!NA POSICAO %d\n", cont + 1);
+  else
+    printf("VALOR NAO ENCONTRADO!!!\n");
+
+  free(vetor);
+}
+
+int buscaBinaria(int numeros[], int tamanho) {
+  int busca, limite = tamanho - 1, auxiliar, i = 0, retorno;
+  printf("INFORME O NUMERO QUE DESEJA ACHAR\n");
+  scanf("%d", &busca);
+
+  while (i <= limite) {
+    auxiliar = (i + limite) / 2;
+    if (numeros[auxiliar] == busca) {
+      printf("NUMERO %d ENCONTRADO!!! NA POSICAO:%d\n\n", numeros[auxiliar],
+             auxiliar + 1);
+      retorno = 0;
+      return retorno;
+    }
+    if (numeros[auxiliar] < busca)
+      i = auxiliar + 1;
+    else
+      limite = auxiliar - 1;
+  }
+  printf("NUMERO NAO ENCONTRADO!!!\n");
+  retorno = 1;
+  return retorno;
+}
+
+void ordena() {
+  int tamanho, cont = 0, menor, j, i;
+  int *numeros;
+
+  do {
+    printf("\nINFORME A QUANTIDADE POSICOES DO VETOR\n");
+    scanf("%d", &tamanho);
+
+    if (tamanho > 0)
+      cont++;
+
+  } while (cont != 1);
+
+  numeros = (int *)malloc(tamanho * sizeof(int));
+
+  for (i = 0; i < tamanho; i++) {
+    printf("\nINFORME O %d VALOR\n", i + 1);
+    scanf("%d", &numeros[i]);
+  }
+
+  for (i = 0; i < tamanho - 1; i++) {
+    for (j = i + 1; j < tamanho; j++) {
+      if (numeros[i] > numeros[j]) {
+        menor = numeros[i];
+        numeros[i] = numeros[j];
+        numeros[j] = menor;
+      }
+    }
+  }
+
+  printf("\n");
+
+  for (i = 0; i < tamanho; i++) {
+    printf("%d\n", numeros[i]);
+  }
+  printf("\n");
+
+  buscaBinaria(numeros, tamanho);
+
+  free(numeros);
+}
+
+void menu(void) {
+
+  do {
+    printf("Informe um numero:");
+    printf("\n=======================================\n");
+    printf("1 BUSCA SEQUENCIAL   |  2 BUSCA BINARIA\n");
+    printf("\t\t  0 SAIR");
+    printf("\n=======================================\n");
+    scanf("%d", &resp);
+    switch (resp) {
+    case 1:
+      buscaSequencial();
+      break;
+    case 2:
+      ordena();
+      break;
+    default:
+      break;
+    }
+
+  } while (resp != 0);
+}
+
+int main(void) {
+  menu();
+  return 0;
+}
